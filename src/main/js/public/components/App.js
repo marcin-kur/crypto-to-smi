@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
-const App = React.createClass({
+import React from 'react';
+import Report from './Subscription/VisibleReport'
+import {Tab, Menu, Label} from 'semantic-ui-react'
+import {Loader} from 'semantic-ui-react'
 
-  render() {
-    return (
-      <h1>Hello, {this.props.name}!</h1>
-    )
-  }
-});
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <Report/>
+            </div>
+        );
+    }
+}
 
 export default App;
