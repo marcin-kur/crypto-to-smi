@@ -6,8 +6,7 @@ import java.time.LocalDate;
 
 @Component
 class LocalDateParser {
-
-    LocalDate parse(String locaDateTimeString) {
-        return LocalDate.parse(locaDateTimeString);
+    LocalDate parse(String localDateTimeString) {
+        return LocalDate.parse(localDateTimeString);
     }
 }
