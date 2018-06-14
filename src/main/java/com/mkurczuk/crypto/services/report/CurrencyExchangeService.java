@@ -2,6 +2,7 @@ package com.mkurczuk.crypto.services.report;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 import com.mkurczuk.crypto.services.AppProps;
@@ -27,7 +28,7 @@ public class CurrencyExchangeService {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     List<CurrencyExchangeRate> getCurrencyExchangeRates(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        String url = getUrl(startDateTime, endDateTime);
+        String url = getUrl(getStartDate(startDateTime), endDateTime);
         String response = restService.doGet(url);
         return parseResponse(response);
     }
@@ -48,5 +49,14 @@ public class CurrencyExchangeService {
                 appProps.exchangeCurrency,
                 startDateTime.format(DATE_TIME_FORMATTER),
                 endDateTime.format(DATE_TIME_FORMATTER));
+    }
+
+    private LocalDateTime getStartDate(LocalDateTime localDateTime) {
+        if (localDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
+            return localDateTime.plusDays(-1);
+        } else if (localDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            return localDateTime.plusDays(-2);
+        }
+        return localDateTime;
     }
 }

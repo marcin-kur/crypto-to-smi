@@ -35,8 +35,6 @@ heroku-deploy:
   services:
     - docker:dind
   script:
-    - apt-get install heroku
     - docker build --build-arg JAR_FILE=build/libs/crypto-0.1.0-SNAPSHOT.jar --tag registry.heroku.com/crypto-to-smi/web .
     - docker login --username=kurczukmarcin@gmail.com --password=$HEROKU_API_KEY registry.heroku.com
     - docker push registry.heroku.com/crypto-to-smi/web
-    - heroku container:release web

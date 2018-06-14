@@ -1,5 +1,5 @@
 import React from 'react';
-import {Select, Button, Grid, Loader, Segment, Header} from 'semantic-ui-react'
+import {Select, Button, Grid, Loader, Segment, Header, Label, Form} from 'semantic-ui-react'
 import ResultTable from './ResultTable'
 
 class Report extends React.Component {
@@ -80,30 +80,45 @@ class Report extends React.Component {
             <Grid columns='equal'>
                 <Grid.Row stretched>
                     <Grid.Column>
-                        <Select placeholder='Select Cryptocurrency' options={cryptoOptions}
-                                onChange={this.changeCrypto}/>
+                        <Form.Field>
+                            <label>Cryptocurrency</label>
+                            <Select placeholder='Select Cryptocurrency' options={cryptoOptions}
+                                    onChange={this.changeCrypto}/>
+                        </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
-                        <Select placeholder='Select Stock Market Index' options={stockMarketIndexOptions}
-                                onChange={this.changeStockMarketIndex}/>
+                        <Form.Field>
+                            <label>Stock Market Index</label>
+                            <Select placeholder='Select Stock Market Index' options={stockMarketIndexOptions}
+                                    onChange={this.changeStockMarketIndex}/>
+                        </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
-                        <div className="ui calendar">
-                            <div className="ui input">
-                                <input type="date" placeholder="Date/Time" onChange={this.changeStartDate}/>
+                        <Form.Field>
+                            <label>Start Date</label>
+                            <div className="ui calendar">
+                                <div className="ui input">
+                                    <input type="date" placeholder="Date/Time" onChange={this.changeStartDate}/>
+                                </div>
                             </div>
-                        </div>
+                        </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
-                        <div className="ui calendar">
-                            <div className="ui input">
-                                <input type="date" placeholder="Date/Time" onChange={this.changeEndDate}/>
+                        <Form.Field>
+                            <label>End Date</label>
+                            <div className="ui calendar">
+                                <div className="ui input">
+                                    <input type="date" placeholder="Date/Time" onChange={this.changeEndDate}/>
+                                </div>
                             </div>
-                        </div>
+                        </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
-                        <Select placeholder='Select Interval (hours)' options={intervalOptions}
-                                onChange={this.changeInterval}/>
+                        <Form.Field>
+                            <label>Interval (hours)</label>
+                            <Select placeholder='Select Interval (hours)' options={intervalOptions}
+                                    onChange={this.changeInterval}/>
+                        </Form.Field>
                     </Grid.Column>
                     <Grid.Column>
                         <Button positive onClick={this.run}>Run</Button>
