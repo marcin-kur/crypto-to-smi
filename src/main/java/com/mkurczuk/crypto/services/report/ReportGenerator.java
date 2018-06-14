@@ -108,11 +108,10 @@ public class ReportGenerator {
     }
 
     private Stream<Range<LocalDateTime>> getIntervalStream(LocalDateTime startDateTime, LocalDateTime endDateTime, int interval) {
-        log.info(String.valueOf(ChronoUnit.HOURS.between(startDateTime, endDateTime)));
-
         return Stream
                 .iterate(startDateTime, dateTime -> dateTime.plusHours(interval))
                 .limit((ChronoUnit.HOURS.between(startDateTime, endDateTime) / interval) + 1)
                 .map(dateTime -> new Range<>(dateTime, dateTime.plusHours(interval)));
     }
 }
+

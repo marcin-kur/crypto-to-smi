@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.mock;
 
 public class ReportGeneratorConfigTest {
-
     @Test
     public void shouldCreateSuccess() {
         assertThatCode(() ->
