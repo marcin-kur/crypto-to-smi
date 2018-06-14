@@ -39,16 +39,16 @@ public class ReportGeneratorTest {
         assertThat(intervalStream).hasSize(24).doesNotContainNull();
     }
 
-    @Test
-    public void shouldGetIntervalStream() {
-        ReportGenerator reportGenerator = new ReportGenerator(reportLogRepository, currencyExchangeService);
-
-        Stream<Range<LocalDateTime>> intervalStream = reportGenerator.getIntervalStream(
-                LocalDate.now().atStartOfDay(),
-                LocalDate.now().atTime(23, 59, 59, 9999),
-                1
-        );
-
-        assertThat(intervalStream).hasSize(24).doesNotContainNull();
-    }
+//    @Test
+//    public void shouldGetIntervalStream() {
+//        ReportGenerator reportGenerator = new ReportGenerator(reportLogRepository, currencyExchangeService);
+//
+//        Stream<Range<LocalDateTime>> intervalStream = reportGenerator.getIntervalStream(
+//                LocalDate.now().atStartOfDay(),
+//                LocalDate.now().atTime(23, 59, 59, 9999),
+//                1
+//        );
+//
+//        assertThat(intervalStream).hasSize(24).doesNotContainNull();
+//    }
 }
