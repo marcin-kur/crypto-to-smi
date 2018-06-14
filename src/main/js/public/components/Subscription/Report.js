@@ -107,7 +107,7 @@ class Report extends React.Component {
                     </Grid.Column>
                     <Grid.Column>
                         <Button positive onClick={this.run}>Run</Button>
-                    </Grid.Column>x
+                    </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>

@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 public class CurrencyExchangeService {
     private final AppProps appProps;
     private final RestService restService;
+    private final ObjectMapper objectMapper;
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -33,7 +34,6 @@ public class CurrencyExchangeService {
 
     private List<CurrencyExchangeRate> parseResponse(String response) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             CurrencyExchangeRates currencyExchangeRates = objectMapper.readValue(response, CurrencyExchangeRates.class);
             return currencyExchangeRates.getRates();
         } catch (IOException e) {

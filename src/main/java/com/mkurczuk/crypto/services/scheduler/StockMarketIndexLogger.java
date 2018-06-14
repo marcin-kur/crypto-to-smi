@@ -17,12 +17,12 @@ import java.util.Optional;
 @Component
 class StockMarketIndexLogger {
     private final AppProps appProps;
+    private final RestService restService;
     private final StockMarketIndexParser stockMarketIndexParser;
     private final ReportLogRepository reportLogRepository;
 
     void log(StockMarketIndex stockMarketIndex) {
         String url = String.format(appProps.stockMarketIndexUrl, stockMarketIndex.getCode());
-        RestService restService = new RestService();
         String response = restService.doGet(url);
         Optional<BigDecimal> optionalResult = stockMarketIndexParser.parse(response);
         optionalResult.ifPresent(result ->

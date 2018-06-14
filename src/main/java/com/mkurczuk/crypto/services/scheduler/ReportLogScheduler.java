@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 class ReportLogScheduler {
-    private final CryptoExchangeLogger cryptoExchangeLogger;
+    private final CryptocurrencyLogger cryptocurrencyLogger;
     private final CryptocurrencyRepository cryptocurrencyRepository;
     private final StockMarketIndexLogger stockMarketIndexService;
     private final StockMarketIndexRepository stockMarketIndexRepository;
 
-//    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 600000)
     void doReports() {
         createCryptoReportLogs();
         createStockMarketIndexesReportLogs();
@@ -26,8 +26,7 @@ class ReportLogScheduler {
     void createCryptoReportLogs() {
         cryptocurrencyRepository
                 .findAll()
-                .forEach(cryptoExchangeLogger::log);
-
+                .forEach(cryptocurrencyLogger::log);
     }
 
     void createStockMarketIndexesReportLogs() {

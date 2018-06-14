@@ -18,32 +18,32 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
-class CryptoExchangeLogger {
+class CryptocurrencyLogger {
     private final AppProps appProps;
     private final RestService restService;
     private final ReportLogRepository reportLogRepository;
+    private final ObjectMapper objectMapper;
 
     void log(Cryptocurrency cryptocurrency) {
         String url = String.format(appProps.cryptoUrl, cryptocurrency.getCode(), appProps.exchangeCurrency);
         String response = restService.doGet(url);
-        Optional<CryptoExchangeRate> optionalCryptoExchangeRate = parseResponse(response);
-        optionalCryptoExchangeRate.ifPresent(cryptoExchangeRate ->
-                reportLogRepository.save(getReportLog(cryptocurrency, cryptoExchangeRate))
+        Optional<CryptocurrencyRate> optionalCryptoExchangeRate = parseResponse(response);
+        optionalCryptoExchangeRate.ifPresent(cryptocurrencyRate ->
+                reportLogRepository.save(getReportLog(cryptocurrency, cryptocurrencyRate))
         );
     }
 
-    Optional<CryptoExchangeRate> parseResponse(String response) {
+    Optional<CryptocurrencyRate> parseResponse(String response) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            CryptoExchangeRate cryptoExchangeRate = objectMapper.readValue(response, CryptoExchangeRate.class);
-            return Optional.of(cryptoExchangeRate);
+            CryptocurrencyRate cryptocurrencyRate = objectMapper.readValue(response, CryptocurrencyRate.class);
+            return Optional.ofNullable(cryptocurrencyRate);
         } catch (IOException e) {
-            log.error("Could not parse CryptoExchangeRate", e);
+            log.error("Could not parse CryptocurrencyRate", e);
             return Optional.empty();
         }
     }
 
-    ReportLog getReportLog(Cryptocurrency cryptocurrency, CryptoExchangeRate cryptoExchangeRate) {
-        return new ReportLog(cryptocurrency, cryptoExchangeRate.getPrice(), LocalDateTime.now());
+    ReportLog getReportLog(Cryptocurrency cryptocurrency, CryptocurrencyRate cryptocurrencyRate) {
+        return new ReportLog(cryptocurrency, cryptocurrencyRate.getPrice(), LocalDateTime.now());
     }
 }
