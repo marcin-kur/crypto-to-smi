@@ -25,11 +25,10 @@ public class ReportGenerator {
     private final ReportLogRepository reportLogRepository;
     private final CurrencyExchangeService currencyExchangeService;
 
-    public List<Report> generateReport(ReportGeneratorConfig reportGeneratorConfig) {
+    public List<Report> generateReports(ReportGeneratorConfig reportGeneratorConfig) {
         List<CurrencyExchangeRate> currencyExchangeRates = currencyExchangeService.getCurrencyExchangeRates(
                 reportGeneratorConfig.getStartDateTime(),
-                reportGeneratorConfig.getEndDateTime()
-        );
+                reportGeneratorConfig.getEndDateTime());
 
         Stream<Range<LocalDateTime>> intervalStream = getIntervalStream(
                 reportGeneratorConfig.getStartDateTime(),
@@ -40,15 +39,14 @@ public class ReportGenerator {
                 reportGeneratorConfig.getCryptocurrency(),
                 reportGeneratorConfig.getStockMarketIndex(),
                 reportGeneratorConfig.getStartDateTime(),
-                reportGeneratorConfig.getEndDateTime()
-        );
+                reportGeneratorConfig.getEndDateTime());
 
         return intervalStream
-                .map(getReports(reportLogs, currencyExchangeRates))
+                .map(getReport(reportLogs, currencyExchangeRates))
                 .collect(Collectors.toList());
     }
 
-    private Function<Range<LocalDateTime>, Report> getReports(List<ReportLog> reportLogs, List<CurrencyExchangeRate> currencyExchangeRates) {
+    private Function<Range<LocalDateTime>, Report> getReport(List<ReportLog> reportLogs, List<CurrencyExchangeRate> currencyExchangeRates) {
         return interval -> {
             Stream<ReportLog> cryptocurrencyReportLogs = reportLogs.stream()
                     .filter(reportLog -> Optional.ofNullable(reportLog.getCryptocurrency()).isPresent() && isIntervalBetween(interval, reportLog));
@@ -103,15 +101,14 @@ public class ReportGenerator {
         );
     }
 
-    private boolean isIntervalBetween(Range<LocalDateTime> interval, ReportLog reportLog) {
-        return reportLog.getDateTime().isAfter(interval.getStart()) && reportLog.getDateTime().isBefore(interval.getEnd());
-    }
-
-    private Stream<Range<LocalDateTime>> getIntervalStream(LocalDateTime startDateTime, LocalDateTime endDateTime, int interval) {
+    Stream<Range<LocalDateTime>> getIntervalStream(LocalDateTime startDateTime, LocalDateTime endDateTime, int interval) {
         return Stream
                 .iterate(startDateTime, dateTime -> dateTime.plusHours(interval))
                 .limit((ChronoUnit.HOURS.between(startDateTime, endDateTime) / interval) + 1)
                 .map(dateTime -> new Range<>(dateTime, dateTime.plusHours(interval)));
     }
-}
 
+    private boolean isIntervalBetween(Range<LocalDateTime> interval, ReportLog reportLog) {
+        return reportLog.getDateTime().isAfter(interval.getStart()) && reportLog.getDateTime().isBefore(interval.getEnd());
+    }
+}

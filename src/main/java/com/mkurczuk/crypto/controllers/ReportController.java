@@ -27,7 +27,7 @@ public class ReportController {
             @RequestParam("interval") Optional<Integer> interval
     ) {
         log.info("Request Parameters: ", startDate, endDate, cryptocurrency, stockMarketIndex, interval);
-        List<Report> reports = reportGenerator.generateReport(reportGeneratorConfigGetter.get(
+        List<Report> reports = reportGenerator.generateReports(reportGeneratorConfigGetter.get(
                 startDate,
                 endDate,
                 cryptocurrency,
