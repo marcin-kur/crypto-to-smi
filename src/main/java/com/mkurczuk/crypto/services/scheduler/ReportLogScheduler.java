@@ -17,7 +17,7 @@ class ReportLogScheduler {
     private final StockMarketIndexLogger stockMarketIndexService;
     private final StockMarketIndexRepository stockMarketIndexRepository;
 
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRateString = "${scheduled.fixedRate}")
     void doReports() {
         createCryptoReportLogs();
         createStockMarketIndexesReportLogs();
